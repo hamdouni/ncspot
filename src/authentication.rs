@@ -40,8 +40,8 @@ static OAUTH_SCOPES: &[&str] = &[
 /// credentials are available it will initiate the OAuth2 login process.
 pub fn get_credentials(configuration: &Config) -> Result<RespotCredentials, String> {
     let mut credentials = {
-        let cache = Cache::new(Some(config::cache_path("librespot")), None, None, None)
-            .expect("Could not create librespot cache");
+        let cache = Cache::new(Some(config::state_path("librespot")), None, None, None)
+            .expect("Could not create librespot state");
         let cached_credentials = cache.credentials();
         match cached_credentials {
             Some(c) => {
