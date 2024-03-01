@@ -262,7 +262,7 @@ impl CommandManager {
             Command::Logout => {
                 self.spotify.shutdown();
 
-                let mut credentials_path = crate::config::cache_path("librespot");
+                let mut credentials_path = crate::config::state_path("librespot");
                 credentials_path.push("credentials.json");
                 std::fs::remove_file(credentials_path).unwrap();
 
