@@ -315,6 +315,13 @@ pub fn user_cache_directory() -> Option<PathBuf> {
     Some(project_directories.cache_dir)
 }
 
+/// Return the path to the current user's state directory, or None if one couldn't be found. This
+/// function does not guarantee correct permissions or ownership of the directory!
+pub fn user_state_directory() -> Option<PathBuf> {
+    let project_directories = try_proj_dirs().ok()?;
+    Some(project_directories.state_dir)
+}
+
 /// Force create the configuration directory at the default project location, removing anything that
 /// isn't a directory but has the same name. Return the path to the configuration file inside the
 /// directory.
@@ -343,6 +350,20 @@ pub fn cache_path(file: &str) -> PathBuf {
         fs::create_dir_all(&cache_dir).expect("can't create cache folder");
     }
     let mut pb = cache_dir.to_path_buf();
+    pb.push(file);
+    pb
+}
+
+/// Create the state directory at the default project location, preserving it if it already exists,
+/// and return the path to the state file inside the directory.
+///
+/// This doesn't create the file, only the containing directory.
+pub fn state_path(file: &str) -> PathBuf {
+    let state_dir = user_state_directory().unwrap();
+    if !state_dir.exists() {
+        fs::create_dir_all(&state_dir).expect("can't create state folder");
+    }
+    let mut pb = state_dir.to_path_buf();
     pb.push(file);
     pb
 }
