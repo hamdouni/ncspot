@@ -12,6 +12,26 @@
   <img alt="ncspot search tab" src="images/screenshot.png">
 </div>
 
+## 🔀 Fork Differences
+
+This repository contains modifications from the upstream [ncspot](https://github.com/hrkfdn/ncspot) project:
+
+### Key Changes
+
+- **Cutting-edge librespot**: Uses the latest `dev` branch from [librespot-org/librespot](https://github.com/librespot-org/librespot) instead of stable releases
+- **Enhanced compatibility**: Code adjustments to work with the latest librespot API changes
+- **Improved credential storage**: Uses the system's state directory instead of cache directory for storing Spotify credentials (more semantically correct)
+- **Latest features**: Access to newest Spotify protocol support and bug fixes before official releases
+
+### Why This Fork?
+
+This fork maintains compatibility with the latest Spotify protocol changes by staying at the cutting edge of librespot development. While the upstream project uses stable librespot releases, this version provides:
+- Faster access to critical Spotify API updates
+- Latest bug fixes and performance improvements
+- Enhanced protocol compatibility
+
+> **Note**: This version may be less stable than the upstream project due to using development dependencies. Use the official ncspot if you prefer stability over latest features.
+
 ncspot is an ncurses Spotify client written in Rust using librespot. It is heavily inspired by
 ncurses MPD clients, such as [ncmpc](https://musicpd.org/clients/ncmpc/). My motivation was to
 provide a simple and resource friendly alternative to the official client as well as to support
