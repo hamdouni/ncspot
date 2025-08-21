@@ -71,10 +71,9 @@ impl Worker {
     }
 
     async fn get_token(session: Session, sender: Sender<Option<Token>>) {
-        let scopes = "user-read-private,playlist-read-private,playlist-read-collaborative,playlist-modify-public,playlist-modify-private,user-follow-modify,user-follow-read,user-library-read,user-library-modify,user-top-read,user-read-recently-played";
         session
-            .token_provider()
-            .get_token(scopes)
+            .login5()
+            .auth_token()
             .map(|response| sender.send(response.ok()).expect("token channel is closed"))
             .await;
     }
