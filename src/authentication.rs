@@ -2,7 +2,7 @@ use std::net::TcpListener;
 
 use librespot_core::authentication::Credentials as RespotCredentials;
 use librespot_core::cache::Cache;
-use librespot_oauth::get_access_token;
+use librespot_oauth::OAuthClientBuilder;
 use log::info;
 
 use crate::config::{self, Config};
@@ -86,13 +86,19 @@ fn credentials_prompt(error_message: Option<String>) -> Result<RespotCredentials
 
 pub fn create_credentials() -> Result<RespotCredentials, String> {
     println!("To login you need to perform OAuth2 authorization using your web browser\n");
-    get_access_token(
+    let client = OAuthClientBuilder::new(
         SPOTIFY_CLIENT_ID,
         &get_client_redirect_uri(),
         OAUTH_SCOPES.to_vec(),
     )
-    .map(|token| RespotCredentials::with_access_token(token.access_token))
-    .map_err(|e| e.to_string())
+    .open_in_browser()
+    .build()
+    .map_err(|e| e.to_string())?;
+    
+    client
+        .get_access_token()
+        .map(|token| RespotCredentials::with_access_token(token.access_token))
+        .map_err(|e| e.to_string())
 }
 
 #[derive(Serialize, Deserialize, Debug)]
