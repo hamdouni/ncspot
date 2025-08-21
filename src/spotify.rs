@@ -250,7 +250,8 @@ impl Spotify {
 
         let create_mixer = librespot_playback::mixer::find(Some(SoftMixer::NAME))
             .expect("could not create softvol mixer");
-        let mixer = create_mixer(MixerConfig::default());
+        let mixer = create_mixer(MixerConfig::default())
+            .expect("could not create mixer");
         mixer.set_volume(volume);
 
         let audio_format: librespot_playback::config::AudioFormat = Default::default();
